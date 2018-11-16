@@ -24,6 +24,14 @@
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
+        <!--to be able to visualize a recipe-->
+        <dependency>
+            <groupId>guru.nidi</groupId>
+            <artifactId>graphviz-java</artifactId>
+            <version>0.5.2</version>
+            <scope>test</scope>
+        </dependency>
+        <!--Baker dependencies follow -->
         <dependency>
             <groupId>com.ing.baker</groupId>
             <artifactId>baker-recipe-dsl_2.12</artifactId>
