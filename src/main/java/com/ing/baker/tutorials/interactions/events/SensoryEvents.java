@@ -12,4 +12,9 @@ public final class SensoryEvents {
     public static final class CustomerInfoReceived {
         private final String customerInfo;
     }
+
+    @Data
+    public static final class PaymentMade {
+
+    }
 }
