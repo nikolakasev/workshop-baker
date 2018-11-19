@@ -18,16 +18,16 @@ public class WebShopRecipeTest {
     private final Recipe recipe = WebShopRecipe.getRecipe();
 
     @Test
-    public void shouldHaveNoValidationErrors() {
-        CompiledRecipe compileRecipe = RecipeCompiler.compileRecipe(recipe);
-        Assert.assertEquals(Collections.emptyList(), compileRecipe.getValidationErrors());
-    }
-
-    @Test
     public void shouldVisualiseWebShopRecipe() throws IOException {
         CompiledRecipe compiledRecipe = RecipeCompiler.compileRecipe(recipe);
         String visualRecipe = compiledRecipe.getRecipeVisualization();
         saveVisualizationAsSvg(visualRecipe);
+    }
+
+    @Test
+    public void shouldHaveNoValidationErrors() {
+        CompiledRecipe compileRecipe = RecipeCompiler.compileRecipe(recipe);
+        Assert.assertEquals(Collections.emptyList(), compileRecipe.getValidationErrors());
     }
 
     private void saveVisualizationAsSvg(final String dotGraph) throws IOException {
