@@ -15,6 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
+        <apache.batik.version>1.10</apache.batik.version>
     </properties>
 
     <dependencies>
@@ -24,11 +25,24 @@
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
-        <!--to be able to visualize a recipe-->
+        <!--to be able to visualize a recipe as SVG-->
         <dependency>
             <groupId>guru.nidi</groupId>
             <artifactId>graphviz-java</artifactId>
             <version>0.5.2</version>
+            <scope>test</scope>
+        </dependency>
+        <!--two extra dependencies when visualizing the recipe as PNG-->
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-i18n</artifactId>
+            <version>${apache.batik.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-constants</artifactId>
+            <version>${apache.batik.version}</version>
             <scope>test</scope>
         </dependency>
         <!--Baker dependencies follow -->

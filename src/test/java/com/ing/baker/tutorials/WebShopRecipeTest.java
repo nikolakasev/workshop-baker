@@ -31,9 +31,10 @@ public class WebShopRecipeTest {
     }
 
     private void saveVisualizationAsSvg(final String dotGraph) throws IOException {
-        final File file = new File("./target/" + "web-shop-recipe.svg");
+        final File file = new File("./target/" + "web-shop-recipe.png");
         final MutableGraph g = Parser.read(dotGraph);
-        Graphviz.fromGraph(g).render(Format.SVG).toFile(file);
+        //try Format.SVG for a vector format, better for printed recipes
+        Graphviz.fromGraph(g).render(Format.PNG).toFile(file);
         System.out.println("Exported graph here: " + file.getAbsolutePath());
     }
 }
