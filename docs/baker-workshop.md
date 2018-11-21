@@ -133,6 +133,9 @@
 # Which two interactions will be executed when the OrderPlaced event occurs? Is this the desired behavior? 
 
 ---
+# Desired Recipe
+
+---
 [.background-color: #FFFFFF]
 ![fit](desired-end-result.png)
 
