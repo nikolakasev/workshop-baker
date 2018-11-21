@@ -1,0 +1,67 @@
+<svg width="516pt" height="584pt"
+     viewBox="0.00 0.00 516.23 584.47" xmlns="http://www.w3.org/2000/svg">
+    <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(14.4 570.0673)">
+        <title>%3</title>
+        <polygon fill="#ffffff" stroke="transparent"
+                 points="-14.4,14.4 -14.4,-570.0673 501.832,-570.0673 501.832,14.4 -14.4,14.4"/>
+        <!-- GoodsManufactured -->
+        <g id="node1" class="node">
+            <title>GoodsManufactured</title>
+            <path fill="#767676" stroke="#767676"
+                  d="M232.207,-283.9674C232.207,-283.9674 11.2928,-218.7508 11.2928,-218.7508 5.5383,-217.052 5.5383,-213.6544 11.2928,-211.9556 11.2928,-211.9556 232.207,-146.739 232.207,-146.739 237.9615,-145.0402 249.4705,-145.0402 255.225,-146.739 255.225,-146.739 476.1392,-211.9556 476.1392,-211.9556 481.8937,-213.6544 481.8937,-217.052 476.1392,-218.7508 476.1392,-218.7508 255.225,-283.9674 255.225,-283.9674 249.4705,-285.6662 237.9615,-285.6662 232.207,-283.9674"/>
+            <text text-anchor="middle" x="243.716" y="-211.7561" font-family="ING Me" font-size="22.00" fill="#ffffff">
+                GoodsManufactured
+            </text>
+        </g>
+        <!-- goods -->
+        <g id="node2" class="node">
+            <title>goods</title>
+            <ellipse fill="#ff6200" stroke="#ff6200" cx="243.716" cy="-53.6736" rx="53.8479" ry="53.8479"/>
+            <text text-anchor="middle" x="243.716" y="-50.0766" font-family="ING Me" font-size="22.00" fill="#ffffff">
+                goods
+            </text>
+        </g>
+        <!-- GoodsManufactured&#45;&gt;goods -->
+        <g id="edge1" class="edge">
+            <title>GoodsManufactured&#45;&gt;goods</title>
+            <path fill="none" stroke="#000000"
+                  d="M243.716,-143.0254C243.716,-134.5375 243.716,-125.9229 243.716,-117.5618"/>
+            <polygon fill="#000000" stroke="#000000"
+                     points="247.2161,-117.5141 243.716,-107.5141 240.2161,-117.5141 247.2161,-117.5141"/>
+        </g>
+        <!-- order -->
+        <g id="node3" class="node">
+            <title>order</title>
+            <ellipse fill="#ee0000" stroke="#ee0000" stroke-width="5" cx="243.716" cy="-507.5161" rx="48.3028"
+                     ry="48.3028"/>
+            <text text-anchor="middle" x="243.716" y="-503.9191" font-family="ING Me" font-size="22.00" fill="#ffffff">
+                order
+            </text>
+        </g>
+        <!-- ManufactureGoods -->
+        <g id="node4" class="node">
+            <title>ManufactureGoods</title>
+            <path fill="#525199" stroke="#525199" stroke-width="2"
+                  d="M361.282,-423.3679C361.282,-423.3679 126.15,-423.3679 126.15,-423.3679 120.15,-423.3679 114.15,-417.3679 114.15,-411.3679 114.15,-411.3679 114.15,-335.3561 114.15,-335.3561 114.15,-329.3561 120.15,-323.3561 126.15,-323.3561 126.15,-323.3561 361.282,-323.3561 361.282,-323.3561 367.282,-323.3561 373.282,-329.3561 373.282,-335.3561 373.282,-335.3561 373.282,-411.3679 373.282,-411.3679 373.282,-417.3679 367.282,-423.3679 361.282,-423.3679"/>
+            <text text-anchor="middle" x="243.716" y="-369.765" font-family="ING Me" font-size="22.00" fill="#ffffff">
+                ManufactureGoods
+            </text>
+        </g>
+        <!-- order&#45;&gt;ManufactureGoods -->
+        <g id="edge2" class="edge">
+            <title>order&#45;&gt;ManufactureGoods</title>
+            <path fill="none" stroke="#000000"
+                  d="M243.716,-459.0834C243.716,-450.8663 243.716,-442.2438 243.716,-433.7649"/>
+            <polygon fill="#000000" stroke="#000000"
+                     points="247.2161,-433.5306 243.716,-423.5307 240.2161,-433.5307 247.2161,-433.5306"/>
+        </g>
+        <!-- ManufactureGoods&#45;&gt;GoodsManufactured -->
+        <g id="edge3" class="edge">
+            <title>ManufactureGoods&#45;&gt;GoodsManufactured</title>
+            <path fill="none" stroke="#000000"
+                  d="M243.716,-322.9326C243.716,-314.8182 243.716,-306.2389 243.716,-297.6079"/>
+            <polygon fill="#000000" stroke="#000000"
+                     points="247.2161,-297.4767 243.716,-287.4768 240.2161,-297.4768 247.2161,-297.4767"/>
+        </g>
+    </g>
+</svg>

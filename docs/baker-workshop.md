@@ -3,9 +3,9 @@
 ---
 
 # Workshop Agenda
-## Why Baker? (10 min.)
-## Develop an Intuition for Baker (15 min.)
-## Implement a Web Shop Flow (25 min.)
+## Why Baker? (10 minutes)
+## Develop an Intuition for Baker (15 m.)
+## Implement a Web Shop Flow (25 m.)
 
 ---
 
@@ -80,19 +80,19 @@
 
 ---
 [.background-color: #FFFFFF]
-![fit](validate-order.png)
+![fit](validate-order.svg)
 
 ---
 [.background-color: #FFFFFF]
-![fit](manufacture-goods.png)
+![fit](manufacture-goods.svg)
 
 ---
 [.background-color: #FFFFFF]
-![fit](ship-goods.png)
+![fit](ship-goods.svg)
 
 ---
 [.background-color: #FFFFFF]
-![fit](send-invoice.png)
+![fit](send-invoice.svg)
 
 ---
 ## Exercises
