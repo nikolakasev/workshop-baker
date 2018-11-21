@@ -89,19 +89,19 @@
 
 ---
 [.background-color: #FFFFFF]
-![fit](validate-order.svg)
+![fit](validate-order.png)
 
 ---
 [.background-color: #FFFFFF]
-![fit](manufacture-goods.svg)
+![fit](manufacture-goods.png)
 
 ---
 [.background-color: #FFFFFF]
-![fit](ship-goods.svg)
+![fit](ship-goods.png)
 
 ---
 [.background-color: #FFFFFF]
-![fit](send-invoice.svg)
+![fit](send-invoice.png)
 
 ---
 ## Exercises

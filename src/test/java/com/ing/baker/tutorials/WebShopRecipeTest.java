@@ -10,6 +10,11 @@ import com.ing.baker.tutorials.interactions.ManufactureGoods;
 import com.ing.baker.tutorials.interactions.SendInvoice;
 import com.ing.baker.tutorials.interactions.ShipGoods;
 import com.ing.baker.tutorials.interactions.ValidateOrder;
+import com.ing.baker.tutorials.interactions.events.ManufactureGoodsEvents.GoodsManufactured;
+import com.ing.baker.tutorials.interactions.events.SendInvoiceEvents.InvoiceSent;
+import com.ing.baker.tutorials.interactions.events.SensoryEvents;
+import com.ing.baker.tutorials.interactions.events.ShipGoodsEvents.GoodsShipped;
+import com.ing.baker.tutorials.interactions.events.ValidateOrderEvents.OrderValid;
 import com.ing.baker.types.Value;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
@@ -32,8 +37,8 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.*;
 
 public class WebShopRecipeTest {
     private final Recipe recipe = WebShopRecipe.getRecipe();
@@ -49,6 +54,11 @@ public class WebShopRecipeTest {
 
     //Baker can run multiple recipes at the same time, each recipe gets a unique recipeId
     private String recipeId;
+
+    //happy flow mock data
+    private final String orderId = "ORD-123456";
+    private final String customerInfo = "John Doe, Amsterdam";
+    private final String goods = "this is the product";
 
     //the good thing about this is that no actual implementations are needed
     //the complete flow can be verified that it will work, speeds up the validation of orchestration logic
@@ -85,6 +95,14 @@ public class WebShopRecipeTest {
     }
 
     @Test
+    //ingredients not provided will cause validation errors for example
+    public void shouldHaveNoValidationErrors() {
+        CompiledRecipe compileRecipe = RecipeCompiler.compileRecipe(recipe);
+        //this is a sound recipe and it's guaranteed that it will work
+        Assert.assertEquals(Collections.emptyList(), compileRecipe.getValidationErrors());
+    }
+
+    @Test
     //Baker will check that it has implementations of all interactions in the recipe
     public void shouldBakeTheRecipe() throws Exception {
         UUID processId = UUID.randomUUID();
@@ -96,11 +114,44 @@ public class WebShopRecipeTest {
     }
 
     @Test
-    //ingredients not provided will cause validation errors for example
-    public void shouldHaveNoValidationErrors() {
-        CompiledRecipe compileRecipe = RecipeCompiler.compileRecipe(recipe);
-        //this is a sound recipe and it's guaranteed that it will work
-        Assert.assertEquals(Collections.emptyList(), compileRecipe.getValidationErrors());
+    //Baker will check that it has implementations of all interactions in the recipe
+    public void shouldExecuteHappyFlowCorrectly() throws Exception {
+        setupMocks();
+
+        UUID processId = UUID.randomUUID();
+        baker.bake(recipeId, processId);
+
+        //blocks the current thread until all interactions that can be called have been executed by Baker
+        //this is useful when an underlying system gives information back that must be returned in the response from the API or in unit-tests
+        baker.processEvent(processId, new SensoryEvents.CustomerInfoReceived(customerInfo));
+        verify(mockValidateOrder, never()).apply(anyString());
+        verify(mockManufactureGoods, never()).apply(anyString());
+        verify(mockShipGoods, never()).apply(anyString(), anyString());
+        verify(mockManufactureGoods, never()).apply(anyString());
+        verify(mockSendInvoice, never()).apply(anyString());
+
+        baker.processEvent(processId, new SensoryEvents.OrderPlaced(orderId));
+        verify(mockValidateOrder).apply(orderId);
+        verify(mockManufactureGoods, never()).apply(anyString());
+        verify(mockShipGoods, never()).apply(anyString(), anyString());
+        verify(mockSendInvoice, never()).apply(anyString());
+
+        baker.processEvent(processId, new SensoryEvents.PaymentMade());
+        verify(mockManufactureGoods).apply(orderId);
+        verify(mockShipGoods).apply(goods, customerInfo);
+        verify(mockSendInvoice).apply(customerInfo);
+
+        verify(mockValidateOrder, times(1)).apply(orderId);
+        verify(mockManufactureGoods, times(1)).apply(orderId);
+        verify(mockShipGoods, times(1)).apply(goods, customerInfo);
+        verify(mockSendInvoice, times(1)).apply(customerInfo);
+    }
+
+    private void setupMocks() throws Exception {
+        when(mockValidateOrder.apply(orderId)).thenReturn(new OrderValid());
+        when(mockManufactureGoods.apply(orderId)).thenReturn(new GoodsManufactured(goods));
+        when(mockShipGoods.apply(goods, customerInfo)).thenReturn(new GoodsShipped());
+        when(mockSendInvoice.apply(customerInfo)).thenReturn(new InvoiceSent());
     }
 
     private void saveVisualizationAsSvg(final String dotGraph) throws IOException {
