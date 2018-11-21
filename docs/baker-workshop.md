@@ -14,9 +14,9 @@
 ---
 
 ## Our Challenge
-### Interact with 12 Different Systems
-### A Flow of 27 Steps
-### From 2 minutes to 6 hours
+### Interact with 12 Different Systems (complex environment)
+### A Flow of 27 Steps (difficult to reason about the logic)
+### From 2 minutes to 6 hours (stateful...)
 
 ---
 
@@ -74,9 +74,18 @@
 
 ---
 # Hands-On
-## Setup
-## Web-shop Flow
-## Closing Remarks and Retro
+## Setup Environment
+## Explain the Web-shop Flow
+## Exercise, Make Unit-tests Green
+
+---
+## Setup Environment
+- clone https://github.com/nikolakasev/workshop-baker
+- mvn clean test
+
+---
+[.background-color: #FFFFFF]
+![fit](sequence.png)
 
 ---
 [.background-color: #FFFFFF]
@@ -149,7 +158,8 @@
 ## When failure occurs:
 
 - Baker retries technical failures with exponential backoff
-- Works well with **idempotent** services
+	- Any Java Exception thrown is a technical failure
+	- Retrying works well with **idempotent** services
 - Deal with functional failure in your recipe
 
 ---

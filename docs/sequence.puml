@@ -1,0 +1,21 @@
+@startuml
+actor Customer as C
+participant "Web-shop API" as API
+participant ERP
+participant Factory
+participant PostOffice
+participant Accountant
+C -> API : Lookup product
+activate API
+API -> ERP : Validate Order (check availability)
+API -> C : OK
+deactivate API
+C -> API : Order product
+activate API
+API -> C : OK
+API -> ERP : Validate Order (check availability)
+API -> Factory : Manufacture Product
+API -> PostOffice : Ship Product
+API -> Accountant : Invoice Customer
+deactivate API
+@enduml
