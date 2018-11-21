@@ -107,10 +107,17 @@
 ## Exercises
 1. Put all interactions in the recipe
 2. Include sensory events in the recipe, use withSensoryEvents()
-3. Add extra conditions when an interaction must be executed, use 
+3. Add extra conditions when an interaction must be executed, use withRequiredEvent()
 4. Change the customerInfo class from String to a POJO
 
 ---
+[.background-color: #FFFFFF]
+![left, fit](sequence-parallel.png)
+
+# 5. Call the Postoffice and Accountant Systems in parallel 
+
+---
+
 # What Can Go Wrong?
 
 ---
