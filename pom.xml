@@ -16,6 +16,7 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <apache.batik.version>1.10</apache.batik.version>
+        <mockito.version>1.10.19</mockito.version>
     </properties>
 
     <dependencies>
@@ -45,6 +46,13 @@
             <version>${apache.batik.version}</version>
             <scope>test</scope>
         </dependency>
+        <!--to be able to mock interactions -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
         <!--Baker dependencies follow -->
         <dependency>
             <groupId>com.ing.baker</groupId>
@@ -61,7 +69,7 @@
             <artifactId>baker-compiler_2.12</artifactId>
             <version>2.0.0</version>
         </dependency>
-        <!-- Lombok for less boilerplate code -->
+        <!-- Lombok for less boilerplate code in events POJOs and unit tests-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
