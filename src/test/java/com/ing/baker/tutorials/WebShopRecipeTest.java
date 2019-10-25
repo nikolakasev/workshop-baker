@@ -1,11 +1,14 @@
 package com.ing.baker.tutorials;
 
 import akka.actor.ActorSystem;
+import akka.stream.ActorMaterializer;
 import com.google.common.collect.ImmutableList;
 import com.ing.baker.compiler.RecipeCompiler;
 import com.ing.baker.il.CompiledRecipe;
 import com.ing.baker.recipe.javadsl.Recipe;
-import com.ing.baker.runtime.java_api.JBaker;
+import com.ing.baker.runtime.javadsl.Baker;
+import com.ing.baker.runtime.javadsl.EventInstance;
+import com.ing.baker.runtime.javadsl.InteractionInstance;
 import com.ing.baker.tutorials.interactions.ManufactureGoods;
 import com.ing.baker.tutorials.interactions.SendInvoice;
 import com.ing.baker.tutorials.interactions.ShipGoods;
@@ -34,6 +37,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -50,7 +54,7 @@ public class WebShopRecipeTest {
 
     //Baker spins an actor system based on AKKA under the hood
     private ActorSystem testActorSystem = ActorSystem.create("WebShop");
-    private JBaker baker = new JBaker(testActorSystem);
+    private Baker baker = Baker.akkaLocalDefault(testActorSystem, ActorMaterializer.create(testActorSystem));
 
     //Baker can run multiple recipes at the same time, each recipe gets a unique recipeId
     private String recipeId;
@@ -62,20 +66,20 @@ public class WebShopRecipeTest {
 
     //the good thing about this is that no actual implementations are needed
     //the complete flow can be verified that it will work, speeds up the validation of orchestration logic
-    private List<Object> mockImplementations = ImmutableList.<Object>of(
-            mockValidateOrder,
-            mockManufactureGoods,
-            mockShipGoods,
-            mockSendInvoice);
+    private List<InteractionInstance> mockImplementations = ImmutableList.of(
+            InteractionInstance.from(mockValidateOrder),
+            InteractionInstance.from(mockManufactureGoods),
+            InteractionInstance.from(mockShipGoods),
+            InteractionInstance.from(mockSendInvoice));
 
-    public WebShopRecipeTest() {
+    public WebShopRecipeTest() throws ExecutionException, InterruptedException {
         CompiledRecipe compiledRecipe = RecipeCompiler.compileRecipe(recipe);
-        baker.addImplementations(mockImplementations);
-        recipeId = baker.addRecipe(compiledRecipe);
+        baker.addInteractionInstances(mockImplementations);
+        recipeId = baker.addRecipe(compiledRecipe).get();
     }
 
     @Before
-    public void setupTest() throws Exception {
+    public void setupTest() {
         for (Object mockImplementation : mockImplementations) {
             if (mockImplementation instanceof Mock)
                 reset(mockImplementation);
@@ -105,11 +109,11 @@ public class WebShopRecipeTest {
     @Test
     //Baker will check that it has implementations of all interactions in the recipe
     public void shouldBakeTheRecipe() throws Exception {
-        UUID processId = UUID.randomUUID();
+        String processId = UUID.randomUUID().toString();
 
         //create an instance of the recipe (flow) for each customer and give it a unique id
         baker.bake(recipeId, processId);
-        Map<String, Value> accumulatedState = baker.getIngredients(processId);
+        Map<String, Value> accumulatedState = baker.getIngredients(processId).get();
         assert (accumulatedState != null);
     }
 
@@ -118,25 +122,25 @@ public class WebShopRecipeTest {
     public void shouldExecuteHappyFlowCorrectly() throws Exception {
         setupMocks();
 
-        UUID processId = UUID.randomUUID();
+        String processId = UUID.randomUUID().toString();
         baker.bake(recipeId, processId);
 
         //blocks the current thread until all interactions that can be called have been executed by Baker
         //this is useful when an underlying system gives information back that must be returned in the response from the API or in unit-tests
-        baker.processEvent(processId, new SensoryEvents.CustomerInfoReceived(customerInfo));
+        baker.fireEventAndResolveWhenCompleted(processId, EventInstance.from(new SensoryEvents.CustomerInfoReceived(customerInfo))).get();
         verify(mockValidateOrder, never()).apply(anyString());
         verify(mockManufactureGoods, never()).apply(anyString());
         verify(mockShipGoods, never()).apply(anyString(), anyString());
         verify(mockManufactureGoods, never()).apply(anyString());
         verify(mockSendInvoice, never()).apply(anyString());
 
-        baker.processEvent(processId, new SensoryEvents.OrderPlaced(orderId));
+        baker.fireEventAndResolveWhenCompleted(processId, EventInstance.from(new SensoryEvents.OrderPlaced(orderId))).get();
         verify(mockValidateOrder).apply(orderId);
         verify(mockManufactureGoods, never()).apply(anyString());
         verify(mockShipGoods, never()).apply(anyString(), anyString());
         verify(mockSendInvoice, never()).apply(anyString());
 
-        baker.processEvent(processId, new SensoryEvents.PaymentMade());
+        baker.fireEventAndResolveWhenCompleted(processId, EventInstance.from(new SensoryEvents.PaymentMade())).get();
         verify(mockManufactureGoods).apply(orderId);
         verify(mockShipGoods).apply(goods, customerInfo);
         verify(mockSendInvoice).apply(customerInfo);
