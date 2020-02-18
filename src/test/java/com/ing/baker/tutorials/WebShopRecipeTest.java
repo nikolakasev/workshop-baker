@@ -1,7 +1,6 @@
 package com.ing.baker.tutorials;
 
 import akka.actor.ActorSystem;
-import akka.stream.ActorMaterializer;
 import com.google.common.collect.ImmutableList;
 import com.ing.baker.compiler.RecipeCompiler;
 import com.ing.baker.il.CompiledRecipe;
@@ -54,7 +53,7 @@ public class WebShopRecipeTest {
 
     //Baker spins an actor system based on AKKA under the hood
     private ActorSystem testActorSystem = ActorSystem.create("WebShop");
-    private Baker baker = Baker.akkaLocalDefault(testActorSystem, ActorMaterializer.create(testActorSystem));
+    private Baker baker = Baker.akkaLocalDefault(testActorSystem);
 
     //Baker can run multiple recipes at the same time, each recipe gets a unique recipeId
     private String recipeId;
