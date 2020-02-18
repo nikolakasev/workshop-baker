@@ -17,7 +17,7 @@
         <maven.compiler.target>1.7</maven.compiler.target>
         <apache.batik.version>1.10</apache.batik.version>
         <mockito.version>1.10.19</mockito.version>
-        <baker.version>3.0.0</baker.version>
+        <baker.version>3.0.1</baker.version>
     </properties>
 
     <dependencies>
