@@ -7,8 +7,8 @@ import static com.ing.baker.recipe.javadsl.InteractionDescriptor.of;
 
 class WebShopRecipe {
     static Recipe getRecipe() {
-        return new Recipe("WebShopRecipe")
-                .withInteraction(
-                        of(ValidateOrder.class));
+        //TODO implement the recipe according to the sequence diagram in docs/sequence.png
+        return new Recipe("WebShop")
+                .withInteraction(of(ValidateOrder.class));
     }
 }

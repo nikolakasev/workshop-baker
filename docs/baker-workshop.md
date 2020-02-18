@@ -53,24 +53,27 @@
 ![left](donuts.jpg)
 
 # Recipes
-## Interactions
-## Ingredients
 ## Events
+## Ingredients
+## Interactions
 
 ---
-# What is an Interaction?
-## It's where you put your system calls
-## Capability, not a technical call
+![left, fit](sensory-and-system-events.png)
+# What is an Event?
+## It's what happens
+## Sensory and System Events
 
 ---
+![left, fit](ingredient.png)
 # What is an Ingredient?
 ## It's a container for data
 ## Can be a primitive type or a POJO
 
 ---
-# What is an Event?
-## It's what happens
-## Sensory and System Events
+![left, fit](interaction.png)
+# What is an Interaction?
+## It's where you put your system calls
+## Capability, not a technical call
 
 ---
 # Hands-On
@@ -82,6 +85,8 @@
 ## Setup Environment
 - clone https://github.com/nikolakasev/workshop-baker
 - mvn clean test
+	- tests fail on purpose
+	- do the [exercises](#exercises) to get them green
 
 ---
 [.background-color: #FFFFFF]
@@ -104,6 +109,8 @@
 ![fit](send-invoice.png)
 
 ---
+<a name="exercises"/>
+
 ## Exercises
 1. Put all interactions in the recipe
 2. Include sensory events in the recipe, use withSensoryEvents()
@@ -145,7 +152,13 @@
 	- Baker helps developers think about rainy-day scenarios
 - What if systems fails, what is desired?
 	- See withFailureStrategy(), withDefaultFailureStrategy() methods and InteractionFailureStrategy class
-- Event-driven Architecture
+
+---
+# Food for Thought / 2
+- How to agree on functionality with stakeholders?
+	- Baker represents the Java logic visually
+- How to change existing functionality? How to be confident nothing breaks?
+	- Baker validates the recipe and reports inconsistencies (such as missing ingredients)
 
 ---
 # Good to Know
@@ -178,18 +191,6 @@
 ### Internal ING library
 ### 80+ Re-usable Interactions
 ### 10+ Teams Using Baker
-
----
-
-![](reachability.png)
-
----
-
-![](unreachable.png)
-
----
-
-![](dead-code.png)
 
 ---
 
