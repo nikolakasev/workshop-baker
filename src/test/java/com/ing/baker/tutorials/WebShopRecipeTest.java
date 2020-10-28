@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.ing.baker.compiler.RecipeCompiler;
 import com.ing.baker.il.CompiledRecipe;
 import com.ing.baker.recipe.javadsl.Recipe;
+import com.ing.baker.runtime.akka.AkkaBaker;
 import com.ing.baker.runtime.javadsl.Baker;
 import com.ing.baker.runtime.javadsl.EventInstance;
 import com.ing.baker.runtime.javadsl.InteractionInstance;
@@ -51,9 +52,9 @@ public class WebShopRecipeTest {
     private final ShipGoods mockShipGoods = mock(ShipGoods.class);
     private final SendInvoice mockSendInvoice = mock(SendInvoice.class);
 
-    //Baker spins an actor system based on AKKA under the hood
-    private ActorSystem testActorSystem = ActorSystem.create("WebShop");
-    private Baker baker = Baker.akkaLocalDefault(testActorSystem);
+    //Baker spins an actor system based on Akka under the hood
+    private ActorSystem actorSystem = ActorSystem.create("WebShop");
+    private Baker baker = AkkaBaker.javaLocalDefault(actorSystem);
 
     //Baker can run multiple recipes at the same time, each recipe gets a unique recipeId
     private String recipeId;
@@ -87,7 +88,7 @@ public class WebShopRecipeTest {
 
     @After
     public void stopActorSystem() throws TimeoutException, InterruptedException {
-        Await.ready(testActorSystem.terminate(), Duration.apply(20, TimeUnit.SECONDS));
+        Await.ready(actorSystem.terminate(), Duration.apply(20, TimeUnit.SECONDS));
     }
 
     @Test

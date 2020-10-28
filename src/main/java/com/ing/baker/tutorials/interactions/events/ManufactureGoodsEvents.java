@@ -7,7 +7,7 @@ public class ManufactureGoodsEvents {
     }
 
     @Value
-    public static final class GoodsManufactured implements ManufactureOutcome {
-        private final String goods;
+    public static class GoodsManufactured implements ManufactureOutcome {
+        String goods;
     }
 }
