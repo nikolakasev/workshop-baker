@@ -5,7 +5,7 @@ import com.ing.baker.tutorials.interactions.events.ValidateOrderEvents.ValidateO
 
 public class ValidateOrderImpl implements ValidateOrder {
     @Override
-    public ValidateOrderOutcome apply(String order) throws Exception {
+    public ValidateOrderOutcome apply(String order) {
         System.out.println("Validating order...");
         return new ValidateOrderEvents.OrderValid();
     }
